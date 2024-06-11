@@ -27,7 +27,7 @@ inputs:
     required: false
   lycheeVersion:
     description: "Use custom version of lychee link checker"
-    default: v0.15.0
+    default: v0.15.1+prettyURLs
     required: false
   output:
     description: "Summary output file path"
@@ -48,7 +48,9 @@ runs:
       run: |
         # Cleanup artifacts from previous run in case it crashed
         rm -rf "lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz" lychee
-        curl -sLO "https://github.com/lycheeverse/lychee/releases/download/${{ inputs.LYCHEEVERSION }}/lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz"
+        url="https://github.com/lycheeverse/lychee/releases/download/${{ inputs.LYCHEEVERSION }}/lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz"
+        case "$url" in *+*) url="$(echo "$url" | sed -e 's|lycheeverse|dscho|' -e 's|+|%2B|g')";; esac
+        curl -sLO "$url"
         tar -xvzf "lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz"
         rm "lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz"
         install -t "$HOME/.local/bin" -D lychee
