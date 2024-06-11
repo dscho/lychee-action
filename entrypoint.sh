@@ -1,5 +1,5 @@
 #!/bin/bash -l
-set -uo pipefail
+set -xuo pipefail
 
 # Enable optional debug output
 if [ "${INPUT_DEBUG}" = true ]; then
