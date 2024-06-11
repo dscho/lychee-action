@@ -46,6 +46,7 @@ runs:
   steps:
     - name: Install lychee
       run: |
+        set -x
         # Cleanup artifacts from previous run in case it crashed
         rm -rf "lychee-${{ inputs.LYCHEEVERSION }}-x86_64-unknown-linux-gnu.tar.gz" lychee
         case '${{ inputs.LYCHEEVERSION }}' in
